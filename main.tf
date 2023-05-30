@@ -5,6 +5,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "public1" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.1.0/24"
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
     Name = "public1"
@@ -14,6 +15,7 @@ resource "aws_subnet" "public1" {
 resource "aws_subnet" "public2" {
   vpc_id     = aws_vpc.main.id
   cidr_block = "10.0.2.0/24"
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
     Name = "public2"
@@ -151,15 +153,15 @@ resource "aws_ecs_task_definition" "deployment-example-task" {
   memory    = 512
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2","FARGATE"]
-  execution_role_arn = "arn:aws:iam::614007627891:role/deployment-example-role"
+  execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/deployment-example-role"
   container_definitions = jsonencode([
     {
       name      = "deployment-nextjs-container"
-      image     = "614007627891.dkr.ecr.eu-central-1.amazonaws.com/nextjs-application:latest"
+      image     = "${data.aws_caller_identity.current.account_id}.dkr.ecr.eu-central-1.amazonaws.com/nextjs-application:latest"
       cpu       = 256
       memory    = 512
       essential = true
-      execution_role_arn = "arn:aws:iam::614007627891:role/deployment-example-role",
+      execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/deployment-example-role",
       portMappings = [
         {
           containerPort = 80
