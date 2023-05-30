@@ -1,0 +1,9 @@
+version: 0.0
+Resources:
+ - TargetService:
+     Type: AWS::ECS::Service
+     Properties:
+       TaskDefinition: "deployment-nextjs-container"
+       LoadBalancerInfo:
+         ContainerName: "ecs-elb"
+         ContainerPort: 80

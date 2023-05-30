@@ -1,0 +1,56 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:eu-central-1:614007627891:task-definition/deployment-example-task:43",
+    "containerDefinitions": [
+        {
+            "name": "deployment-nextjs-container",
+            "image": "614007627891.dkr.ecr.eu-central-1.amazonaws.com/nextjs-application:latest",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": []
+        }
+    ],
+    "family": "deployment-example-task",
+    "executionRoleArn": "arn:aws:iam::614007627891:role/deployment-example-role",
+    "networkMode": "awsvpc",
+    "revision": 43,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+            "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "registeredAt": "2023-05-30T10:06:03.949Z",
+    "registeredBy": "arn:aws:iam::614007627891:user/AdminLuka",
+    "tags": []
+}
