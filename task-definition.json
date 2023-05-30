@@ -41,11 +41,9 @@
     ],
     "placementConstraints": [],
     "compatibilities": [
-        "EC2",
         "FARGATE"
     ],
     "requiresCompatibilities": [
-        "EC2",
         "FARGATE"
     ],
     "cpu": "256",

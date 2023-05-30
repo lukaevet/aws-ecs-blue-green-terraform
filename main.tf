@@ -152,7 +152,7 @@ resource "aws_ecs_task_definition" "deployment-example-task" {
   cpu       = 256
   memory    = 512
   network_mode             = "awsvpc"
-  requires_compatibilities = ["EC2","FARGATE"]
+  requires_compatibilities = ["FARGATE"]
   execution_role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/deployment-example-role"
   container_definitions = jsonencode([
     {
@@ -174,14 +174,10 @@ resource "aws_ecs_task_definition" "deployment-example-task" {
 
 resource "aws_ecs_service" "ecs-service" {
   name            = "ecs-service"
+  launch_type     = "FARGATE" 
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.deployment-example-task.arn
   desired_count   = 1
-
-  ordered_placement_strategy {
-    type  = "binpack"
-    field = "cpu"
-  }
 
   load_balancer {
     target_group_arn = aws_lb_target_group.ip-tg.arn
@@ -190,5 +186,6 @@ resource "aws_ecs_service" "ecs-service" {
   }
   network_configuration{
     subnets = [aws_subnet.public1.id,aws_subnet.public2.id]
+    assign_public_ip = true
   }
 }
