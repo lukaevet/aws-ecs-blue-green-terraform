@@ -45,13 +45,13 @@ jobs:
         container-name: deployment-nextjs-container
         image: ${{ steps.build-image.outputs.image }}
     
-    #- name: Deploy Amazon ECS task definition
-    #  uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-    #  with:
-    #    task-definition: ${{ steps.task-def.outputs.task-definition }}
-    #    service: ecs-service
-    #    cluster: ecs-cluster
-    #    wait-for-service-stability: true
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ecs-service
+        cluster: ecs-cluster
+        wait-for-service-stability: true
 
     - name: Deploy Code to AWS CodeDeploy
       run: |
