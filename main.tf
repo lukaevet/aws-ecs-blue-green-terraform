@@ -115,12 +115,6 @@ resource "aws_lb_listener" "listener" {
   }
 }
 
-#resource "aws_lb_target_group_attachment" "tg-attachment" {
-#  target_group_arn = aws_lb_target_group.ip-tg.arn
-#  target_id        = aws_instance.test.id
-#  port             = 80
-#}
-
 resource "aws_ecs_cluster" "cluster" {
   name = "ecs-cluster"
 }
@@ -187,5 +181,6 @@ resource "aws_ecs_service" "ecs-service" {
   network_configuration{
     subnets = [aws_subnet.public1.id,aws_subnet.public2.id]
     assign_public_ip = true
+    security_groups = [aws_security_group.allow_tls.id]
   }
 }
