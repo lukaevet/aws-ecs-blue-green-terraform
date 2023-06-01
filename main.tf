@@ -208,6 +208,14 @@ resource "aws_ecs_service" "ecs-service" {
 }
 
 /*Code deploy*/
+resource "aws_s3_bucket" "s3appspec" {
+  bucket = "s3appspec"
+
+  tags = {
+    Name        = "s3appspec"
+  }
+}
+
 data "aws_iam_policy_document" "assume_by_codedeploy" {
   statement {
     sid     = ""
