@@ -316,10 +316,25 @@ resource "aws_codedeploy_app" "this" {
   compute_platform = "ECS"
   name             = "dev-test-deploy"
 }
+
+resource "aws_codedeploy_deployment_config" "deployment-config" {
+  deployment_config_name = "deployment-config"
+  compute_platform = "ECS"
+
+  traffic_routing_config {
+    type = "TimeBasedLinear"
+
+    time_based_linear {
+      interval = 2
+      percentage = 20
+    }
+  }
+}
+
 resource "aws_codedeploy_deployment_group" "this" {
   app_name               = aws_codedeploy_app.this.name
   deployment_group_name  = "example-deploy-group"
-  deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
+  deployment_config_name = aws_codedeploy_deployment_config.deployment-config.deployment_config_name
   service_role_arn       = aws_iam_role.codedeploy.arn
 
   blue_green_deployment_config {
