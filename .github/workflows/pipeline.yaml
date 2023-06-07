@@ -1,8 +1,8 @@
 name: Push image to ECR and make new task definition
 
 on:
-  push:
-    branches: [ main ]
+  release:
+    types: [created, edited] 
     
 jobs:
 
