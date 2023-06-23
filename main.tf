@@ -80,10 +80,6 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
-resource "aws_eip" "lb" {
-  domain   = "vpc"
-}
-
 resource "aws_lb" "elb" {
   name               = "ecs-elb"
   internal           = false
@@ -333,7 +329,7 @@ resource "aws_codedeploy_deployment_config" "deployment-config" {
 
 resource "aws_codedeploy_deployment_group" "this" {
   app_name               = aws_codedeploy_app.this.name
-  deployment_group_name  = "example-deploy-group"
+  deployment_group_name  = "deploy-group"
   deployment_config_name = aws_codedeploy_deployment_config.deployment-config.deployment_config_name
   service_role_arn       = aws_iam_role.codedeploy.arn
 
