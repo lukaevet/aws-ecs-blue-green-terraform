@@ -203,6 +203,35 @@ resource "aws_ecs_service" "ecs-service" {
   }
 }
 
+resource "aws_appautoscaling_target" "ecs_target" {
+  max_capacity       = 4
+  min_capacity       = 2
+  resource_id        = "service/${aws_ecs_cluster.cluster.name}/${aws_ecs_service.ecs-service.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "ecs_policy" {
+  name               = "asg-fargate"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.ecs_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs_target.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    target_value       = 70
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
+
+    customized_metric_specification {
+        metric_name = "ECSServiceAverageCPUUtilization"
+        namespace   = "ecs-fargate-cpu-scale"
+        statistic   = "Average"
+        unit        = "Percent"
+      }
+  }
+}
+
 /*Code deploy*/
 resource "aws_s3_bucket" "s3appspec" {
   bucket = "s3appspec"
