@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code into the mailoapp frontend repo
+    - name: Checkout code into the frontend repo
       uses: actions/checkout@v3
       
     - name: Configure AWS credentials
