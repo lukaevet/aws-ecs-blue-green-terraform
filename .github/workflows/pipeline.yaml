@@ -35,7 +35,7 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
         docker push -a $ECR_REGISTRY/$ECR_REPOSITORY 
-        echo "{image}={$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG}" >> $GITHUB_OUTPUT
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
 # If you choose to use dynamic task-def file for direct deployment to ECS
     #- name: Fill in the new image ID in the Amazon ECS task definition
